@@ -1,8 +1,3 @@
-:root {
-	--card-scale: scale(.8);
-	--card-rotation: 5deg;
-}
-
 @font-face {
 	font-family: 'nickname';
 	src:
@@ -74,6 +69,20 @@ section[data-view=authorize] {
 
 section[data-view=authorize] input {
 	margin-top: 10px;
+	border: 1px solid #1a1a18;
+	background: 0;
+	width: 200px;
+	height: 40px;
+	font-family: 'nickname', cursive;
+	font-size: 16px;
+	outline: none;
+	text-align: center;
+}
+
+section[data-view=authorize] input[type=submit] {
+	background-color: rgba(26, 26, 24, .9);
+	color: #fff;
+	cursor: pointer;
 }
 
 button[data-vote] {
