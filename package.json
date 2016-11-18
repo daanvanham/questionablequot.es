@@ -1,0 +1,22 @@
+{
+  "name": "questionablequot.es",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daan van Ham <daan@vanham.io>",
+  "license": "MIT",
+  "dependencies": {
+    "handlebars": "^4.0.6",
+    "hapi-status": "^2.1.0",
+    "hoek": "^4.1.0",
+    "inert": "^4.0.2",
+    "mongoose": "^4.6.8",
+    "nodemailer": "^2.6.4",
+    "peafowl": "^0.1.0",
+    "scooter": "^4.0.0",
+    "vision": "^4.1.0"
+  }
+}
