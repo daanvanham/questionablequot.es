@@ -44,30 +44,30 @@ let QuoteModel = mongoose.model('Quote', QuoteSchema);
 HapiStatus.addDelegation('applicationJson', (result) => result);
 
 exports.register = (server, options, next) => {
-	server.route({
-		method: 'POST',
-		path: base,
-		handler: (request, reply) => {
-			let author, body, model;
-
-			if (!request.payload) {
-				return HapiStatus.badRequest(reply);
-			}
-
-			author = request.payload.author;
-			body = request.payload.body;
-
-			if (!author || !body) {
-				return HapiStatus.badRequest(reply);
-			}
-
-			model = new QuoteModel({author: author, body: body});
-
-			model.save();
-
-			return HapiStatus.noContent(reply);
-		}
-	});
+	// server.route({
+	// 	method: 'POST',
+	// 	path: base,
+	// 	handler: (request, reply) => {
+	// 		let author, body, model;
+	//
+	// 		if (!request.payload) {
+	// 			return HapiStatus.badRequest(reply);
+	// 		}
+	//
+	// 		author = request.payload.author;
+	// 		body = request.payload.body;
+	//
+	// 		if (!author || !body) {
+	// 			return HapiStatus.badRequest(reply);
+	// 		}
+	//
+	// 		model = new QuoteModel({author: author, body: body});
+	//
+	// 		model.save();
+	//
+	// 		return HapiStatus.noContent(reply);
+	// 	}
+	// });
 
 	server.route({
 		method: 'GET',
