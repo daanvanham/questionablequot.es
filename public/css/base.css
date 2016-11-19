@@ -77,6 +77,7 @@ section[data-view=authorize] input {
 	font-size: 16px;
 	outline: none;
 	text-align: center;
+	-webkit-appearance: none;
 }
 
 section[data-view=authorize] input[type=submit] {
