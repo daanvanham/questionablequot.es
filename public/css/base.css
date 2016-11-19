@@ -131,7 +131,15 @@ footer {
 }
 
 footer img {
+	position: absolute;
+	right: 4%;
 	height: 60%;
-	margin: 14px 0 14px 280px;
+	margin: 14px 0;
 	filter: invert(100%);
+}
+
+@media only screen and (max-width: 800px) {
+	footer img {
+		margin-left: 245px;
+	}
 }
