@@ -62,7 +62,7 @@
 
 			if (this.status === 404) {
 				authorNode.style.display = 'block';
-				quote('No Quote Available', 'QQ');
+				quote('No Quotes Available', 'QQ');
 			}
 		});
 	}
@@ -117,7 +117,7 @@
 					},
 					function() {
 						if (this.status === 200) {
-							return form.parentNode.replaceChild(document.createTextNode('Email has been send'), form);
+							return form.parentNode.replaceChild(document.createTextNode('Email has been sent'), form);
 						}
 
 						if (this.status === 400) {
