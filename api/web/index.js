@@ -39,29 +39,16 @@ exports.register = (server, options, next) => {
 		}
 	});
 
-	server.route({
-		method: 'GET',
-		path: '/assets/logo.png',
-		handler: (request, reply) => {
-			return reply.file('./public/media/logo.png');
-		}
-	});
-
-	server.route({
-		method: 'GET',
-		path: '/assets/font/nickname.woff',
-		handler: (request, reply) => {
-			return reply.file('./public/media/font/nickname.woff');
-		}
-	});
-
-	server.route({
-		method: 'GET',
-		path: '/assets/font/nickname.woff2',
-		handler: (request, reply) => {
-			return reply.file('./public/media/font/nickname.woff2');
-		}
-	});
+	['logo.png', 'font/nickname.woff', 'font/nickname.woff2']
+		.forEach((media) => {
+			server.route({
+				method: 'GET',
+				path: '/assets/' + media,
+				handler: (request, reply) => {
+					return reply.file('./public/media/' + media);
+				}
+			});
+		});
 
 	next();
 };
