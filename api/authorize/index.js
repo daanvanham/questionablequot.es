@@ -33,7 +33,7 @@ exports.register = (server, options, next) => {
 			let email = request.payload.email;
 
 			if (!new RegExp(validator).test(email)) {
-				return HapiStatus.badRequest(reply, 'Invalid emailaddress');
+				return HapiStatus.badRequest(reply, 'Invalid email address');
 			}
 
 			TokenModel.find({email: email}).remove().exec();
@@ -42,11 +42,17 @@ exports.register = (server, options, next) => {
 				email: email
 			});
 
-			model.save();
+			model.save((error) => {
+				if (error) {
+					return server.log(['error'], error);
+				}
 
-			Mail.send(email, model._id, () => {});
+				Mail.send(email, model._id, () => {
+					return HapiStatus.ok(reply);
+				});
+			});
 
-			return HapiStatus.ok(reply);
+			return ;
 		}
 	});
 
@@ -66,9 +72,13 @@ exports.register = (server, options, next) => {
 				}
 
 				token.active = true;
-				token.save();
+				token.save((error) => {
+					if (error) {
+						return server.log(['error'], error);
+					}
 
-				return HapiStatus.ok(reply);
+					return HapiStatus.ok(reply);
+				});
 			});
 		}
 	});

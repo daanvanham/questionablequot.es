@@ -18,18 +18,40 @@ fs.readdirSync('./api')
 		if (fs.statSync(path).isDirectory()) {
 			server.register(require(path), (error) => {
 				if (error) {
-					console.error('Failed to load plugin: ', path);
+					return server.log(['error'], 'Failed to load plugin: ', path);
 				}
 			});
 		}
 	});
 
+let options = {
+		reporters: {}
+	},
+	reporters = {
+		access: [{response: '*'}],
+		error: [{log: 'error'}, {error: '*'}],
+		info: [{log: '*'}]
+	};
+
+Object.keys(reporters)
+	.forEach((type) => {
+		options.reporters[type] = [
+			{module: 'good-squeeze', name: 'Squeeze', args: reporters[type]},
+			{module: 'good-squeeze', name: 'SafeJson'},
+			{module: 'rotating-file-stream', args: [type + '.log', {size: '10MB', path: './logs'}]}
+		];
+	});
+
 server.register(require('inert'), (error) => {
-	Hoek.assert(!error, error);
+	if (error) {
+		return server.log(['error'], error);
+	}
 });
 
 server.register(require('vision'), (error) => {
-	Hoek.assert(!error, error);
+	if (error) {
+		return server.log(['error'], error);
+	}
 
 	server.views({
 		engines: {
@@ -42,12 +64,17 @@ server.register(require('vision'), (error) => {
 	});
 });
 
-server.start((error) => {
-	if (error) {
-		throw error;
-	}
+server.register({
+		register: require('good'),
+		options,
+	}, (error) => {
+		if (error) {
+			return server.log(['error'], error);
+		}
 
-	console.log('Started: ', Config.get('manifest/connection/port'));
-});
+		server.start(() => {
+			return server.log(['info'], 'server started: ', Config.get('manifest/connection/port'));
+		});
+	});
 
 module.exports = server;

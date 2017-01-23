@@ -38,7 +38,7 @@ The API requires a config file in the `./config` directory which looks like this
 		"user": "<user>",
 		"password": "<password>",
 		"host": "<host>",
-		"validator": "<validator for emailaddresses which are allowed to request invites>"
+		"validator": "<validator for email addresses which are allowed to request invites>"
 	}
 }
 ```

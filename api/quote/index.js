@@ -87,9 +87,14 @@ exports.register = (server, options, next) => {
 						}
 
 						tokenModel.current = quote._id;
-						tokenModel.save();
+						tokenModel.save((error) => {
+							if (error) {
+								server.log(['error'], error);
+								return;
+							}
 
-						return HapiStatus.ok(reply, {id: quote._id, author: quote.author, body: quote.body});
+							return HapiStatus.ok(reply, {id: quote._id, author: quote.author, body: quote.body});
+						});
 					});
 				}
 				else {
@@ -119,21 +124,32 @@ exports.register = (server, options, next) => {
 				}
 
 				tokenModel.current = null;
-				tokenModel.save();
-
-				QuoteModel.findOne(new mongoose.Types.ObjectId(quoteId), (error, quote) => {
+				tokenModel.save((error) => {
 					if (error) {
-						return HapiStatus.notFound(reply, error);
+						server.log(['error'], error);
+
+						return;
 					}
 
-					if (quote.votes.filter((vote) => vote.email === tokenModel.email).length === 0) {
-						quote.votes.push({email: tokenModel.email, vote: vote});
-						quote.save();
+					QuoteModel.findOne(new mongoose.Types.ObjectId(quoteId), (error, quote) => {
+						if (error) {
+							return HapiStatus.notFound(reply, error);
+						}
 
-						return HapiStatus.noContent(reply);
-					}
+						if (quote.votes.filter((vote) => vote.email === tokenModel.email).length === 0) {
+							quote.votes.push({email: tokenModel.email, vote: vote});
+							quote.save((error) => {
+								if (error) {
+									server.log(['error'], error);
+									return;
+								}
 
-					return HapiStatus.conflict(reply);
+								return HapiStatus.noContent(reply);
+							});
+						}
+
+						return HapiStatus.conflict(reply);
+					});
 				});
 			});
 		}
