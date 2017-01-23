@@ -73,7 +73,7 @@ server.register({
 		}
 
 		server.start(() => {
-			return server.log(['info'], 'server started: ', Config.get('manifest/connection/port'));
+			return server.log(['info'], 'server started: ' + Config.get('manifest/connection/port'));
 		});
 	});
 
